@@ -5,6 +5,8 @@ I got fed up using the PowerPoint template so I made this. Its as close as possi
 ## Overview
 This file uses absolutely positioned text boxes with coordinates originating from the upper-left corner of the document
 
+**YOU MAY NEED TO COMPILE TWICE**
+
 ## Custom Commands
 Make sure to use these commands:
 - `\titlebox`: Use for the title. Takes {x-pos}{y-pos}{width}{height}
