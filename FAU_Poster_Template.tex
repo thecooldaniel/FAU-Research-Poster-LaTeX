@@ -1,0 +1,284 @@
+\documentclass[final]{beamer}
+\usepackage[scale=1.0]{beamerposter}
+\usepackage{tikz}
+\usetikzlibrary{shadows}
+\usepackage{graphicx}
+\usepackage{lipsum}  % For dummy text
+\usepackage[absolute,overlay]{textpos}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{helvet}
+\usepackage{enumitem}
+\usepackage{amsmath}
+
+% Force Computer Modern in math mode
+\usefonttheme[onlymath]{serif}
+
+% Use Helvetica (Arial substitute in LaTeX)
+\renewcommand{\familydefault}{\sfdefault}  
+
+% Custom colors
+\definecolor{boxbg}{RGB}{255, 255, 255}  % White background for boxes
+\definecolor{headercolor}{HTML}{00447C}  % Header color
+\definecolor{authorcolor}{HTML}{FF0000}  % Author color (red)
+\definecolor{shadowcolor}{HTML}{00447C}  % Shadow color
+
+% Define poster dimensions (48 inches × 36 inches)
+% Convert to pt: 1 inch = 72.27 pt
+\geometry{paperwidth=48in,paperheight=36in,margin=0in}
+
+% Set up the textpos environment for absolute positioning
+\setlength{\TPHorizModule}{1in}  % Horizontal unit is inches
+\setlength{\TPVertModule}{1in}   % Vertical unit is inches
+
+% Define text styles with adjusted spacing
+\newcommand{\bodytext}[1]{
+  \fontsize{30pt}{40pt}
+  \selectfont
+  \setlength{\parskip}{20pt}
+  \raggedright
+  #1%
+}
+
+% Save the original environments
+\let\originalitemize\itemize
+\let\endoriginalitemize\enditemize
+\let\originalenumerate\enumerate
+\let\endoriginalenumerate\endenumerate
+
+% Redefine itemize
+\renewenvironment{itemize}{%
+  \begingroup
+  \fontsize{30pt}{30pt}\selectfont% Better spacing for lists
+  \originalitemize
+}{%
+  \endoriginalitemize
+  \endgroup
+}
+
+% Redefine enumerate
+\renewenvironment{enumerate}{%
+  \begingroup
+  \fontsize{30pt}{30pt}\selectfont% Better spacing for lists
+  \originalenumerate
+}{%
+  \endoriginalenumerate
+  \endgroup
+}
+
+
+\newcommand{\sectiontext}[1]{%
+  {\centering\fontsize{40pt}{48pt}\selectfont\textbf{\textcolor{headercolor}{#1}}\par}%
+  \vspace{20pt}%
+}
+
+\newcommand{\titletext}[1]{%
+  {\fontsize{80pt}{96pt}\selectfont\textbf{\textcolor{white}{#1}}\par}%
+}
+
+\newcommand{\authortext}[1]{%
+  {\fontsize{54pt}{65pt}\selectfont\textcolor{authorcolor}{#1}\par}%
+}
+
+\newcommand{\postercaption}[1]{%
+  {\fontsize{24pt}{30pt}\selectfont\textcolor[HTML]{006699}{#1}}%
+}
+
+\newcommand{\posterfigure}[3]{
+  {
+    \begin{center}
+      \includegraphics[width=#1\linewidth]{#2}
+      \vspace{0.5in}
+
+      \postercaption{#3}
+    \end{center}
+  }
+}
+
+% Set global defaults for all lists
+\setlist[itemize]{label=$\bullet$, leftmargin=40pt, parsep=10pt, itemsep=10pt, topsep=10pt}
+\setlist[enumerate]{label=\arabic*., leftmargin=40pt, parsep=10pt, itemsep=10pt, topsep=10pt}
+
+% Define a custom tcolorbox for poster boxes
+\newtcolorbox{posterbox}[1][\textheight]{
+  enhanced,
+  colback=white,
+  colframe=white,
+  boxsep=0pt,
+  arc=0pt,
+  outer arc=0pt,
+  left=35pt,
+  right=45pt,
+  top=25pt,
+  bottom=25pt,
+  boxrule=0.5pt,
+  enlarge left by=0mm,
+  enlarge right by=0mm,
+  enlarge top by=0mm,
+  enlarge bottom by=0mm,
+  width=\linewidth,
+  height=#1,
+  frame style = {
+    drop shadow={shadow xshift=6.36pt, shadow yshift=-6.36pt, shadow scale=1, fill=shadowcolor, opacity=0.5}
+  }
+}
+
+% Command to create a text box at absolute position
+\newcommand{\postertextbox}[5]{%
+  \begin{textblock}{#3}(#1,#2)
+    \begin{minipage}[t][#4in][t]{#3in}
+      \begin{posterbox}[#4in]
+        #5
+      \end{posterbox}
+    \end{minipage}
+  \end{textblock}
+}
+
+% Command for title box
+\newcommand{\titlebox}[6]{%
+  \begin{textblock}{#3}(#1,#2)
+    \begin{minipage}[t][#4in][c]{#3in}
+      \centering
+      #6
+    \end{minipage}
+  \end{textblock}
+}
+
+% Command for transparent images
+\newcommand{\transparentimagebox}[6]{%
+  \begin{textblock}{#3}(#1,#2)
+    \begin{minipage}[t][#4in][t]{#3in}
+      \centering
+      \includegraphics[width=#3in,keepaspectratio]{#5}\par
+      \vspace{0.2in}
+      #6
+    \end{minipage}
+  \end{textblock}
+}
+
+\begin{document}
+
+% Setup background image
+\begin{frame}[t]
+\begin{tikzpicture}[remember picture,overlay]
+  % Draw background image
+  \node[inner sep=0pt] at (current page.center) {
+    \includegraphics[width=\paperwidth,height=\paperheight]{images/poster-background-gradient.pdf}
+  };
+\end{tikzpicture}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Title and author(s)
+\titlebox{12.89}{1.17}{22.15}{4.83}{}{
+  \titletext{MILCR: My Incredible \\ Life-Changing Research}
+  \vspace{15pt}
+  \authortext{Jane Doe \& Dr. Reza Azarderakhsh \\ FAU College of Engineering \& Computer Science}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Content boxes
+
+% Box 1 - tall left box
+\postertextbox{1.56}{7.30}{10.50}{27}{
+  \sectiontext{Really Long Section Header With a Long Title}
+  
+  \bodytext{
+    \begin{itemize}
+      \item Item 1
+      \item Item 2
+        \begin{itemize}
+       	  \item Item 1.5
+        \end{itemize}
+      \item Item 3
+    \end{itemize}
+
+    \begin{enumerate}
+      \item Item 1
+      \item Item 2
+      \item Item 3
+    \end{enumerate}
+
+    \begin{equation}
+      E=mc^2
+    \end{equation}
+
+    This is some text. Hello, World!
+
+    This is some inline math: $a^2 + b^2 = c^2$
+
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur efficitur tempus. Nullam consequat volutpat molestie. Duis sagittis suscipit eros ut eleifend. Sed id vulputate purus. Nulla facilisi. Morbi accumsan tristique magna quis semper. Proin feugiat ante quis metus tempor gravida. Duis facilisis vel nunc at scelerisque.
+  }
+}
+
+% Box 2 - middle top
+\postertextbox{13}{7.30}{10.50}{11}{
+  \sectiontext{Section Header}
+  
+  \bodytext{
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur efficitur tempus. Nullam consequat volutpat molestie. Duis sagittis suscipit eros ut eleifend. Sed id vulputate purus. Nulla facilisi. Morbi accumsan tristique magna quis semper. Proin feugiat ante quis metus tempor gravida. Duis facilisis vel nunc at scelerisque. 
+  }
+}
+
+% Box 3 - right top
+\postertextbox{24.49}{7.30}{10.50}{11}{
+  \sectiontext{Section With a Figure}
+
+  \posterfigure{0.5}{images/Heckert_GNU_white.svg.png}{GNU's Not Unix!}
+  
+  \bodytext{
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur efficitur tempus.
+  }
+}
+
+% Box 4 - middle bottom wide box
+\postertextbox{13}{19}{22}{11}{
+  \sectiontext{Section With Columns}
+
+    \begin{columns}[T]  % T aligns the tops of the columns
+      \begin{column}{0.32\textwidth}
+        \posterfigure{0.5}{images/Heckert_GNU_white.svg.png}{GNU's Not Unix!}
+      \end{column}
+      \begin{column}{0.32\textwidth}
+        \posterfigure{0.5}{images/Heckert_GNU_white.svg.png}{GNU's Not Unix!}
+      \end{column}
+      \begin{column}{0.32\textwidth}
+       \posterfigure{0.5}{images/Heckert_GNU_white.svg.png}{GNU's Not Unix!}
+      \end{column}
+    \end{columns}
+
+    \vspace{50pt}
+  
+  \bodytext{
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur efficitur tempus. Nullam consequat volutpat molestie. Duis sagittis suscipit eros ut eleifend. Sed id vulputate purus. Nulla facilisi. Morbi accumsan tristique magna quis semper. Proin feugiat ante quis metus tempor gravida. Duis facilisis vel nunc at scelerisque. 
+  }
+}
+
+% Box 5 - tall right box
+\postertextbox{36}{7.30}{10.50}{27}{
+  \sectiontext{Section Header}
+  
+  \bodytext{
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur efficitur tempus. Nullam consequat volutpat molestie. Duis sagittis suscipit eros ut eleifend. Sed id vulputate purus. Nulla facilisi. Morbi accumsan tristique magna quis semper. Proin feugiat ante quis metus tempor gravida. Duis facilisis vel nunc at scelerisque. 
+  }
+
+  \vspace{50pt}
+  \sectiontext{Another Section Header}
+
+  \bodytext{
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur efficitur tempus. Nullam consequat volutpat molestie. Duis sagittis suscipit eros ut eleifend. Sed id vulputate purus. Nulla facilisi. Morbi accumsan tristique magna quis semper. Proin feugiat ante quis metus tempor gravida. Duis facilisis vel nunc at scelerisque. 
+  }
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Image boxes
+\transparentimagebox{1.58}{1.72}{10.25}{3.88}{images/FAU_CEECS_White.png}{}
+\transparentimagebox{19.67}{30.95}{9.08}{3.44}{images/FAU_CEECS_Color.png}{}
+
+\end{frame}
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:
